@@ -1,0 +1,13 @@
+<div class="cart-container" *ngIf="cartItems.length > 0">
+  <h2>Your Cart</h2>
+  <div *ngFor="let item of cartItems">
+    <h3>{{ item.name }}</h3>
+    <div class="quantity-controls">
+      <button (click)="decrementQuantity(item)">-</button>
+      <span>{{ item.quantity }}</span>
+      <button (click)="incrementQuantity(item)">+</button>
+    </div>
+    <p>{{ item.description }}</p>
+  </div>
+</div>
+<h1>cart works</h1>
