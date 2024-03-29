@@ -1,27 +1,31 @@
 # FoodieAppUI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.2.
+FoodieAppUI is a web application built with Angular, designed to provide a platform for users to explore and order food from various restaurants. This project showcases the use of Angular's powerful features such as components, services, and routing to create a dynamic and responsive user interface.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Search Functionality**: Users can search for restaurants by name.
+- **Menu Items**: Display a list of menu items from selected restaurants.
+- **Shopping Cart**: Users can add items to a shopping cart and manage quantities.
+- **Responsive Design**: The application is designed to be responsive, providing a great user experience on both desktop and mobile devices.
 
-## Code scaffolding
+## Getting Started
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Build
+### Prerequisites
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Node.js and npm (Node Package Manager) installed on your machine. You can download Node.js from [here](https://nodejs.org/en/download/).
+- Angular CLI installed globally on your machine. You can install it using npm:
 
-## Running unit tests
+  `bash npm install -g @angular/cli`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Installation and run
 
-## Running end-to-end tests
+1. Run npm install on the root directory to install the project
+2. Run the application
+  `ng serve`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Contact
+If you have any questions or suggestions, feel free to contact me.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
