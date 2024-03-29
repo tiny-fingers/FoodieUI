@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {CartService} from "../cart.service";
+import {MenuItem} from "../menu-item";
 
 @Component({
   selector: 'app-menu-item',
@@ -12,14 +13,14 @@ import {CartService} from "../cart.service";
   styleUrl: './menu-item.component.css'
 })
 export class MenuItemComponent {
-  menuItems = [
+  menuItems: MenuItem[] = [
     { id: 1, name: 'Pizza Margherita', description: 'Tomato sauce, mozzarella cheese, and basil.' },
     { id: 2, name: 'Spaghetti Carbonara', description: 'Spaghetti, bacon, eggs, and parmesan cheese.' },
   ];
 
   constructor(private cartService: CartService) {}
 
-  addToCart(item: { id: number; name: string; description: string }) {
+  addToCart(item: MenuItem) {
     this.cartService.addToCart(item);
   }
 }
