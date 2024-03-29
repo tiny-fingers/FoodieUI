@@ -1,0 +1,20 @@
+.flex-container {
+  display: flex;
+  justify-content: space-between; /* This ensures space between the divs */
+}
+
+.flex-child {
+  flex: 1; /* This makes the divs take up equal space */
+  border: 2px 0 solid #000; /* Optional: Adds a border for visual separation */
+  padding: 20px; /* Optional: Adds some padding inside the divs */
+}
+
+/* Optional: Adds a divider between the divs */
+/*.flex-container::before {*/
+/*  content: '';*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 50%;*/
+/*  width: 2px; !* Width of the divider *!*/
+/*}*/

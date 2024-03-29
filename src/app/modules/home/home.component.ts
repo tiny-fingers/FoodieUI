@@ -2,13 +2,16 @@ import { Component } from '@angular/core';
 import {Router, RouterOutlet} from "@angular/router";
 import {SearchBoxComponent} from "../search-box/search-box.component";
 import {NgForOf} from "@angular/common";
+import {CartService} from "../cart.service";
+import {CartComponent} from "../cart/cart.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     SearchBoxComponent,
-    NgForOf
+    NgForOf,
+    CartComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -19,7 +22,7 @@ export class HomeComponent {
     { id: 2, name: 'Restaurant B', description: 'Mexican food' },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, protected cartService: CartService) {}
 
   filteredRestaurants = this.restaurants;
 

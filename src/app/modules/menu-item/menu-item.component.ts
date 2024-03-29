@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {CartService} from "../cart.service";
-import {MenuItem} from "../menu-item";
+import {MenuItem} from "../interface/menu-item";
 
 @Component({
   selector: 'app-menu-item',
@@ -21,6 +21,6 @@ export class MenuItemComponent {
   constructor(private cartService: CartService) {}
 
   addToCart(item: MenuItem) {
-    this.cartService.addToCart(item);
+    this.cartService.addToCartItem({...item, quantity: 1});
   }
 }

@@ -14,7 +14,7 @@ import {CartComponent} from "./modules/cart/cart.component";
 })
 export class AppComponent {
   cartOpen = true;
-  constructor(protected cartService: CartService) {}
+  constructor() {}
 
   toggleCart() {
     this.cartOpen = !this.cartOpen;
