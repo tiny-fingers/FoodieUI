@@ -3,6 +3,7 @@
   <div class="menu-item" *ngFor="let item of menuItems">
     <h3>{{ item.name }}</h3>
     <p>{{ item.description }}</p>
+    <p>{{ item.price }}</p>
     <button (click)="addToCart(item)">Add to Cart</button>
   </div>
 </div>

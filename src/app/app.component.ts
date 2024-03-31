@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {HomeComponent} from "./modules/home/home.component";
 import {NavbarComponent} from "./modules/navbar/navbar.component";
-import {CartService} from "./modules/cart.service";
 import {CartComponent} from "./modules/cart/cart.component";
 
 @Component({

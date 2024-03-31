@@ -12,9 +12,8 @@ import {FormsModule} from "@angular/forms";
 })
 export class SearchBoxComponent {
   @Output() searchTerm = new EventEmitter<string>();
-  searchTermValue: string = '';
 
-  search() {
-    this.searchTerm.emit(this.searchTermValue);
+  search(searchTerm: string): void {
+    this.searchTerm.emit(searchTerm);
   }
 }

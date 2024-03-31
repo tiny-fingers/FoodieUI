@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {CartItem} from "./cart-item";
-import {MenuItem} from "./interface/menu-item";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, map, Observable} from "rxjs";
+import {CartItem} from "../cart-item";
 
 @Injectable({
   providedIn: 'root'
@@ -47,14 +46,6 @@ export class CartService {
     return this.http.get<{userId: string, sessionId: string, cardItems: CartItem[]}>(`http://localhost:8090/api/carts/1`)
       .pipe(map(response => response['cardItems']));
   }
-
-  // updateCart(updatedCart: CartItem[]): Observable<any> {
-  //   const url = `http://localhost:8090/api/cart`;
-  //
-  //   this.cartItemsSubject.next(updatedCart)
-  //
-  //   return this.http.post<any>(url, updatedCart);
-  // }
 
   updateCart() {
     const url = `http://localhost:8090/api/cart`;

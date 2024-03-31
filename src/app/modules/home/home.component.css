@@ -1,20 +1,81 @@
+/* General styles for the flex container */
+
 .flex-container {
   display: flex;
-  justify-content: space-between; /* This ensures space between the divs */
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: navajowhite; /* Amber background for the container */
 }
 
+/* Styling for the search box */
+app-search-box {
+  width: 100%;
+  margin-bottom: 20px;
+  /*background-color: #FFBF00; !* Amber background for the search box *!*/
+  color: white; /* Ensure text is readable against the amber background */
+}
+
+/* Styling for the flex children */
 .flex-child {
-  flex: 1; /* This makes the divs take up equal space */
-  border: 2px 0 solid #000; /* Optional: Adds a border for visual separation */
-  padding: 20px; /* Optional: Adds some padding inside the divs */
+  flex: 1;
+  min-width: 300px;
+  margin-bottom: 20px;
 }
 
-/* Optional: Adds a divider between the divs */
-/*.flex-container::before {*/
-/*  content: '';*/
-/*  position: absolute;*/
-/*  top: 0;*/
-/*  bottom: 0;*/
-/*  left: 50%;*/
-/*  width: 2px; !* Width of the divider *!*/
-/*}*/
+/* Styling for the restaurant list */
+.restaurant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Styling for individual restaurants */
+.restaurant {
+  background-color: white; /* Amber background for each restaurant */
+  padding: 20px;
+  border-color: #e6b219;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.restaurant:hover {
+  transform: translateY(-5px);
+}
+
+.restaurant h3,
+.restaurant p {
+  margin: 0;
+  padding: 0;
+  color: black; /* Ensure text is readable against the amber background */
+}
+
+/* Styling for the "See more" button */
+.restaurant button {
+  background-color: #FFBF00; /* Amber background for the button */
+  color: white; /* Ensure text is readable against the amber background */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.restaurant button:hover {
+  background-color: #e6b219; /* Slightly darker amber for hover effect */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+  }
+
+  .flex-child {
+    width: 100%;
+    min-width: 100%;
+  }
+}

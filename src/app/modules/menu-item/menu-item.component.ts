@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NgForOf} from "@angular/common";
-import {CartService} from "../cart.service";
 import {MenuItem} from "../interface/menu-item";
+import {CartService} from "../service/cart.service";
 
 @Component({
   selector: 'app-menu-item',
@@ -14,8 +14,8 @@ import {MenuItem} from "../interface/menu-item";
 })
 export class MenuItemComponent {
   menuItems: MenuItem[] = [
-    { id: 1, name: 'Pizza Margherita', description: 'Tomato sauce, mozzarella cheese, and basil.' },
-    { id: 2, name: 'Spaghetti Carbonara', description: 'Spaghetti, bacon, eggs, and parmesan cheese.' },
+    { id: 1, name: 'Pizza Margherita', description: 'Tomato sauce, mozzarella cheese, and basil.' , price: 6.90},
+    { id: 2, name: 'Spaghetti Carbonara', description: 'Spaghetti, bacon, eggs, and parmesan cheese.', price: 8.90},
   ];
 
   constructor(private cartService: CartService) {}

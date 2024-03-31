@@ -1,12 +1,18 @@
 <div class="cart-container" *ngIf="cartItems.length > 0">
-  <h2>Your Cart</h2>
+  <h1>Your cart</h1>
   <div *ngFor="let item of cartItems">
      <h3>{{ item.name }}</h3>
+      <p>{{ item.price | currency:'USD':true:'1.2-2' }}</p>
      <div class="quantity-controls">
-       <button (click)="decrementQuantity(item.id)">-</button>
+       <button class="item-counter" (click)="decrementQuantity(item.id)">-</button>
        <span>{{ item.quantity }}</span>
-       <button (click)="incrementQuantity(item.id)">+</button>
+       <button class="item-counter"(click)="incrementQuantity(item.id)">+</button>
      </div>
      <p>{{ item.description }}</p>
   </div>
+  <div class="checkout-button-container">
+    <h3>Total: {{ totalPrice }}</h3>
+    <button class="checkout-button" (click)="confirm('Confirm order')">Checkout</button>
+  </div>
  </div>
+

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router, RouterOutlet} from "@angular/router";
 import {SearchBoxComponent} from "../search-box/search-box.component";
 import {NgForOf} from "@angular/common";
-import {CartService} from "../cart.service";
 import {CartComponent} from "../cart/cart.component";
+import {RestaurantsService} from "../service/restaurants.service";
+import {Restaurant} from "../interface/restaurant";
 
 @Component({
   selector: 'app-home',
@@ -17,19 +18,21 @@ import {CartComponent} from "../cart/cart.component";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  restaurants = [
-    { id: 1, name: 'Restaurant A', description: 'Italian cuisine' },
-    { id: 2, name: 'Restaurant B', description: 'Mexican food' },
-  ];
+  @Input() restaurants: Restaurant[] = [];
 
-  constructor(private router: Router, protected cartService: CartService) {}
+  constructor(private router: Router, protected restaurantService: RestaurantsService) {}
 
-  filteredRestaurants = this.restaurants;
+  ngOnInit(){
+    this.restaurantService.fetchRestaurant("").subscribe({
+      next: data => {this.restaurants = data}
+    })
+  }
 
-  filterRestaurants(searchTerm: string) {
-    this.filteredRestaurants = this.restaurants.filter(restaurant =>
-      restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  searchRestaurants(searchTerm: string) {
+    this.restaurantService.fetchRestaurant(searchTerm).subscribe({
+      next: data => {this.restaurants = data}
+    });
+    console.log( "filterRestaurants " + searchTerm);
   }
 
   navigateToMenu(id: number) {
