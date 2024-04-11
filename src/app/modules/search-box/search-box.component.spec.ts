@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SearchBoxComponent } from './search-box.component';
+import {SearchBoxComponent} from './search-box.component';
 
 describe('SearchBoxComponent', () => {
   let component: SearchBoxComponent;
@@ -11,7 +11,7 @@ describe('SearchBoxComponent', () => {
       imports: [SearchBoxComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(SearchBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

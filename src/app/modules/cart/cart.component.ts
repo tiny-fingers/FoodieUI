@@ -1,9 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
-import {CartItem} from "../cart-item";
 import {Subscription} from "rxjs";
-import {CartService} from "../service/cart.service";
-import {PriceCalculatorService} from "../service/price-calculator.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Cart} from "../interface/cart";
+import {OrderRequest} from "../interface/order";
+import {CartItem} from "../interface/cart-item";
+import {CartService} from "../../services/cart.service";
+import {PriceCalculatorService} from "../../services/price-calculator.service";
+import {OrdersService} from "../../services/orders.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-cart',
@@ -18,55 +23,104 @@ import {PriceCalculatorService} from "../service/price-calculator.service";
 })
 export class CartComponent {
   @Input() cartItems: CartItem[] = [];
-  @Input() totalPrice: string | null = '0.00';
+  @Input() totalPrice: number | undefined;
+  @Input() restaurantName: string | undefined;
+  restaurantId: number = 0;
+  cart: Cart = {
+    userId: '',
+    id: 0,
+    restaurantId: 0,
+    restaurantName: "",
+    totalPrice: 0,
+    cartItems: []}
 
   private subscription?: Subscription;
 
   ngOnInit(): void {
-    this.cartService.fetchCart();
-    this.subscription = this.cartService.cartItems$.subscribe({
-      next: (items) => {
-        this.cartItems = items
-        this.totalPrice = this.currencyPipe.transform(items.map(item => this.priceCalculatorService.calculatePrice(item.price, item.quantity))
-            .reduce((acc, cur) => acc + cur, 0)
-            .toFixed(2),
-          'USD',
-          'symbol') ;
-      }
+    this.route.params.subscribe(params => {
+      this.restaurantId = params['id'];
     })
+
+    this.cartService.fetchOrInitCart(this.restaurantId);
+
+    this.subscription = this.cartService.cart$.subscribe(
+      {
+        next: cart => {
+          this.cart = cart;
+          this.restaurantName = cart.restaurantName;
+          this.cartItems = cart.cartItems;
+          this.totalPrice = cart.totalPrice;
+        },
+      });
+  }
+
+  ngAfterViewInit() {
+    this.cartService.cart$.subscribe(
+      {
+        next: cart => {
+          this.cart = cart;
+          this.cartItems = cart.cartItems.filter((item: CartItem) => !!item.quantity);
+          this.totalPrice = cart.totalPrice;
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
-  constructor(private cartService: CartService, private priceCalculatorService: PriceCalculatorService, private currencyPipe: CurrencyPipe) {
+  constructor(private cartService: CartService,
+              private priceCalculatorService: PriceCalculatorService,
+              private ordersService: OrdersService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private authService: AuthService,
+              private currencyPipe: CurrencyPipe) {
   }
 
   incrementQuantity(itemId: number) {
-    const item = this.cartItems.find(i => i.id === itemId);
+    const item = this.cartItems.find(i => i.menuItemId === itemId);
     if (item) {
       item.quantity++;
     }
-    this.updatePrice();
-    this.cartService.updateCart();
-  }
-
-  private updatePrice() {
-    this.totalPrice = this.currencyPipe.transform(this.cartItems.map(item => this.priceCalculatorService.calculatePrice(item.price, item.quantity))
-        .reduce((acc, cur) => acc + cur, 0)
-        .toFixed(2),
-      'USD',
-      'symbol');
+    const updatedCart: Cart = ({
+      ...this.cart,
+      cartItems: this.cartItems.filter(i => i.quantity > 0)
+    })
+    this.cartService.updateCart(updatedCart);
   }
 
   decrementQuantity(itemId: any) {
-    const item = this.cartItems.find(i => i.id === itemId);
+    const item = this.cartItems.find(i => i.menuItemId === itemId);
     if (item && item.quantity > 0) {
       item.quantity--;
     }
-    this.updatePrice();
-    this.cartService.updateCart();
+    const updatedCart: Cart = ({
+      ...this.cart,
+      cartItems: this.cartItems.filter(i => i.quantity > 0)
+    })
+    this.cartService.updateCart(updatedCart);
+  }
+
+  handleCheckOut() {
+    const order: OrderRequest = {
+      cartId: this.cart!.id,
+      userId: this.cart!.userId,
+    }
+
+    if (!this.authService.isLoggedIn()) {
+      void this.router.navigate(['/login']);
+    } else {
+      this.ordersService
+        .postOrder(order)
+        .subscribe({
+          next: (res) => {
+            this.cartService.resetCart()
+            void this.router.navigate(['/orderStatus', res.orderId])
+          },
+          error: (error) => console.log(error)
+        })
+    }
   }
 
   protected readonly confirm = confirm;

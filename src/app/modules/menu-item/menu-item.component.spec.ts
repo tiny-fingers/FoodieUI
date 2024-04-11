@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MenuItemComponent } from './menu-item.component';
+import {MenuItemComponent} from './menu-item.component';
 
 describe('MenuItemComponent', () => {
   let component: MenuItemComponent;
@@ -11,7 +11,7 @@ describe('MenuItemComponent', () => {
       imports: [MenuItemComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(MenuItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

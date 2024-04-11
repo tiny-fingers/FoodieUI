@@ -1,26 +1,41 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {MenuItem} from "../interface/menu-item";
-import {CartService} from "../service/cart.service";
+import {ActivatedRoute} from "@angular/router";
+import {CartComponent} from "../cart/cart.component";
+import {CartService} from "../../services/cart.service";
+import {RestaurantsService} from "../../services/restaurants.service";
 
 @Component({
   selector: 'app-menu-item',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    CartComponent
   ],
   templateUrl: './menu-item.component.html',
   styleUrl: './menu-item.component.css'
 })
 export class MenuItemComponent {
-  menuItems: MenuItem[] = [
-    { id: 1, name: 'Pizza Margherita', description: 'Tomato sauce, mozzarella cheese, and basil.' , price: 6.90},
-    { id: 2, name: 'Spaghetti Carbonara', description: 'Spaghetti, bacon, eggs, and parmesan cheese.', price: 8.90},
-  ];
+  menuItems: MenuItem[] = []
+  restaurantId: number | undefined;
 
-  constructor(private cartService: CartService) {}
+  constructor(private route: ActivatedRoute, private cartService: CartService, private restaurantService: RestaurantsService) {}
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.restaurantId = params['id'];
+    })
+    this.restaurantService.fetchRestaurantMenu(this.restaurantId).subscribe({
+      next: data => {this.menuItems = data.menu.map(menuItem => ({
+        ...menuItem,
+        restaurantId: this.restaurantId!
+      }))},
+      error: err => {console.error(err)}
+    })
+  }
 
   addToCart(item: MenuItem) {
-    this.cartService.addToCartItem({...item, quantity: 1});
+    this.cartService.addToCartItem({...item, menuItemId: item.id, unitPrice: item.price, quantity: 1});
   }
 }

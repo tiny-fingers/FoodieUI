@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {Router, RouterOutlet} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {SearchBoxComponent} from "../search-box/search-box.component";
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
 import {CartComponent} from "../cart/cart.component";
-import {RestaurantsService} from "../service/restaurants.service";
 import {Restaurant} from "../interface/restaurant";
+import {RestaurantsService} from "../../services/restaurants.service";
 
 @Component({
   selector: 'app-home',
@@ -12,30 +12,30 @@ import {Restaurant} from "../interface/restaurant";
   imports: [
     SearchBoxComponent,
     NgForOf,
-    CartComponent
+    CartComponent,
+    RouterLink,
+    NgClass
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
   @Input() restaurants: Restaurant[] = [];
+  hover = false;
 
-  constructor(private router: Router, protected restaurantService: RestaurantsService) {}
+  constructor(protected restaurantService: RestaurantsService) {
+  }
 
   ngOnInit(){
     this.restaurantService.fetchRestaurant("").subscribe({
-      next: data => {this.restaurants = data}
+      next: (data: Restaurant[]) => {this.restaurants = data}
     })
   }
 
   searchRestaurants(searchTerm: string) {
     this.restaurantService.fetchRestaurant(searchTerm).subscribe({
-      next: data => {this.restaurants = data}
+      next: (data: Restaurant[]) => {this.restaurants = data}
     });
     console.log( "filterRestaurants " + searchTerm);
-  }
-
-  navigateToMenu(id: number) {
-    this.router.navigate(['/menu', id]);
   }
 }
